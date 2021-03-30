@@ -30,30 +30,23 @@ module.exports = class DepthCalculator {
 };
 */
 
-
-module.exports = class DepthCalculator {
-  calculateDepth(arr, count, countMax) {
-    countMax = countMax || 1; 
-    count = count || 1; 
-    if (countMax<count) { 
-      countMax = count; 
-    }
-    if (Array.isArray(arr)) {
-      count++; 
-      for(let i=0; i<arr.length; i++) {
-        if(Array.isArray(arr[i])) {
-          let countCur = this.calculateDepth(arr[i], count, countMax);
-          if (countMax<countCur) {
-            countMax = countCur;
-          }       
-       }
-     }
-     return countMax;
-    }
+module.exports = class DepthCalculator{
+  calculateDepth(arr){
+      let count = 0;
+      let countMax = 0;
+      if (Array.isArray(arr)){
+          count++;
+          for (let i=0; i<arr.length; i++){
+              let countArr = this.calculateDepth(arr[i]);
+              if (countArr>countMax){
+                countMax = countArr;
+              }
+          }
+          count += countMax;
+      }
+      return count;    
   }
-};
-
-
+}
 
 //let deep = new DepthCalculator();
 //deep.calculateDepth([1, 2, 3, 4, 5, [1]]); // 2
